@@ -2,7 +2,7 @@ Provide authentication for Github using OAuth2.0
 
 
 1.  Download the repository to your local machine.
-2.  Open the command line inside the SSDAssignment folder.
+2.  Open the command line inside the downloaded folder.
 4.  Install all the node modules.
         npm install
 5.  To start the server, run the following command in the terminal.
