@@ -1,0 +1,36 @@
+.jumbotron{
+    margin-top: 100px;
+    height: 50px;
+    text-align: center;
+    background-color: #c2ffed;
+}
+.alert{
+    text-align: center
+}
+.repos{
+    margin-left:60px;
+    padding: 20px;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    
+}
+.panel{
+    background-color:#baf0ff;
+}
+.login{
+        position: fixed;
+        top: 90%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+}
+.image{
+    position: fixed;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+h2{
+    margin-bottom: 20px;
+    margin-top: 0px;
+}
+
