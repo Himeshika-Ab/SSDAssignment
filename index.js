@@ -1,25 +1,21 @@
 const express = require('express')
 const app = express()
-
-// Import the axios library, to make HTTP requests
 const axios = require('axios')
 
-// This is the client ID and client secret that you obtained
-// while registering the application
+// The client ID and client secret that received during the registration
 const clientID = 'Iv1.3fc57417c2ccb3ee'
 const clientSecret = 'a29e9f705e6a6b25c730b184a0de3d2143ab0ed1'
 
 
-// Declare the redirect route
+// Defining the redirect route
 app.get('/home', (req, res) => {
 
-  // The req.query object has the query params that were sent to this route.
-  const requestToken = req.query.code
+  const Token = req.query.code
   
   axios({
     method: 'post',
-    url: `https://github.com/login/oauth/access_token?client_id=${clientID}&client_secret=${clientSecret}&code=${requestToken}`,
-    // Set the content type header, so that we get the response in JSON
+    url: `https://github.com/login/oauth/access_token?client_id=${clientID}&client_secret=${clientSecret}&code=${Token}`,
+    
     headers: {
          accept: 'application/json'
     }
@@ -36,5 +32,5 @@ app.get('/home', (req, res) => {
 
 app.use(express.static(__dirname + '/public'))
 app.listen(4000,()=>{
-    console.log("Server listening on port : 4000")
+    console.log("listening on port : 4000")
 })

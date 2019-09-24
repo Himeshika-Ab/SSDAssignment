@@ -22,20 +22,14 @@
       <div class="container">
         <div class="row">
             <div class="col-lg-12">
-                <div class="jumbotron">
+                <div class="jumbobox">
                      <h2 id="welcome"></h2>     
                 </div>
             </div>
         </div>
-        <!-- <div class="col-lg-4">
-                <div class="alert alert-success" id="orgCount" role="alert"></div>
-        </div> -->
         <div class="col-lg-4">
                 <div class="alert alert-warning" id="repositoriesCount" style="background-color: #1ea1d9; width: 1100px"></div>
         </div>
-        <!-- <div class="col-lg-4">
-                <div class="alert alert-info" id="notyCount" role="alert"></div>
-        </div> -->
         <div class="col-lg-12">
         <h3>Repository List</h3>
         </div>
@@ -50,12 +44,10 @@
 	const token = query.split('access_token=')[1]
     welcome = document.getElementById("welcome")
     repositoriesCount = document.getElementById("repositoriesCount")
-    // notyCount = document.getElementById("notyCount")
-    // orgCount = document.getElementById("orgCount")
 
     fetch('https://api.github.com/user', {
 			headers: {
-				// Include the token in the Authorization header
+				// access token in the header
 				Authorization: 'token ' + token
 			}
 		})
@@ -68,31 +60,11 @@
             
     })
 
-    
-
-    // fetch('https://api.github.com/user/orgs', {
-		// 	headers: {
-		// 		// Include the token in the Authorization header
-		// 		Authorization: 'token ' + token
-		// 	}
-		// })
-		// // Parse the response as JSON
-		// .then(res => res.json())
-		// .then(res => {
-    //         Count = 0
-    //         Object.keys(res).forEach(function(key){
-    //             Count+=1
-    //         })
-    //         var orgNode = document.createTextNode(`Organizations: ${Count}`)
-            
-    //         orgCount.appendChild(orgNode)
-    // })
-    
- 
+      
 
     fetch('https://api.github.com/user/repos', {
 			headers: {
-				// Include the token in the Authorization header
+				// access token in the header
 				Authorization: 'token ' + token
 			}
 		})
@@ -101,20 +73,21 @@
 		.then(res => {
             Count = 0
 
+            // display the repository list
             Object.keys(res).forEach(function(key){
                 Count+=1
                 var node = document.createElement('div');
                 var br1 = document.createElement('br');
                 var br2 = document.createElement('br');
                 node.setAttribute("class", "panel panel-success col-lg-5 repos h4")
-                var textNode = document.createTextNode(`Name: ${res[key].name}`)
+                var namenode = document.createTextNode(`Name: ${res[key].name}`)
                 var sizeNode = document.createTextNode(`Size: ${res[key].size}KB`)
-                var date = document.createTextNode(`Date: ${res[key].updated_at}`)
-                node.appendChild(textNode)
+                var updatednode = document.createTextNode(`Date: ${res[key].updated_at}`)
+                node.appendChild(namenode)
                 node.appendChild(br1)
                 node.appendChild(sizeNode)
                 node.appendChild(br2)
-                node.appendChild(date)
+                node.appendChild(updatednode)
 
                 document.getElementById("repoList").appendChild(node)
             })
@@ -122,26 +95,9 @@
             repositoriesCount.appendChild(repoitem)
     })
 
-    // fetch('https://api.github.com/notifications', {
-		// 	headers: {
-		// 		// Include the token in the Authorization header
-		// 		Authorization: 'token ' + token
-		// 	}
-		// })
-		// // Parse the response as JSON
-		// .then(res => res.json())
-		// .then(res => {
-    //         Count = 0
-    //         Object.keys(res).forEach(function(key){
-    //             console.log(key, res[key])
-    //             Count+=1
-    //         })
-    //         var notyNode = document.createTextNode(`Notifications: ${Count}`)
-    //         notyCount.appendChild(notyNode)
-    // })
-
     
-	// Call the user info API using the fetch browser library
+    
+
 
 </script>
 
