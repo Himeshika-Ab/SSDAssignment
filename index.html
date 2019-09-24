@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	<meta charset="utf-8">
+	<title>Assignment2</title>
+	<link rel="stylesheet" href="https://bootswatch.com/3/flatly/bootstrap.css">
+	<style media="screen">
+			#facebookButton{margin-top:20px;}
+			#profiledetails, #logout, #posts{display:none}
+	</style>
+	</head>
+	
+	<body>
+		<!--script starts-->
+		<script>
+		  window.fbAsyncInit = function() {
+			FB.init({
+			  appId      : '377036443237797',
+			  cookie     : true,
+			  xfbml      : true,
+			  version    : 'v4.0'
+			});
+			  
+			
+			FB.getLoginStatus(function(response) {
+				authenticateLogin(response);
+			}); 
+			  
+		  };
+
+		  (function(d, s, id){
+			 var js, fjs = d.getElementsByTagName(s)[0];
+			 if (d.getElementById(id)) {return;}
+			 js = d.createElement(s); js.id = id;
+			 js.src = "//connect.facebook.net/en_US/sdk.js";
+			 fjs.parentNode.insertBefore(js, fjs);
+		   }(document, 'script', 'facebook-jssdk'));
+		   
+		   function authenticateLogin(response){
+				if (response.status === 'connected'){
+					console.log('Authenticated');
+					viewElements(true);
+					callAPI();
+				}	else {
+					console.log('Not authenticated');
+					viewElements(false);
+				}
+		   }		   
+		   
+			function checkLoginStatus() {
+				FB.getLoginStatus(function(response) {
+					authenticateLogin(response);
+				});
+			}
+
+			function callAPI(){
+				FB.api('/me?fields=name,email,birthday,location', function(response){
+					if(response && !response.error){
+						console.log(response);
+						viewProfile(response);
+					}
+					FB.api('/me/feed',function(response){
+						if(response && !response.error){
+						console.log(response);
+						viewFeed(response);
+					}
+					})
+				} )
+			}
+
+			function viewProfile(user){
+				let profiledetails = `
+					<h3>${user.name}</h3>
+					<ul class="list-group">
+						<li class="list-group-item">User ID: ${user.id}</li>
+						<li class="list-group-item">Email: ${user.email}</li>
+						<li class="list-group-item">Birthday: ${user.birthday}</li>
+						<li class="list-group-item">Birthday: ${user.location.name}</li>
+					</ul>
+				`;
+				document.getElementById('profiledetails').innerHTML = profiledetails;
+			}
+
+			function viewFeed(posts){
+				let feed = '<h3>Feed</h3>';
+				for(let i in posts.data){
+					if(posts.data[i].message){
+						feed += `
+							<div class="well">
+							${posts.data[i].message}
+						`;
+					}
+				}
+
+				document.getElementById('posts').innerHTML = feed;
+			}
+
+			function viewElements(isLoggedIn){
+				if(isLoggedIn){
+					document.getElementById('logout').style.display = 'block';
+					document.getElementById('profiledetails').style.display = 'block';
+					document.getElementById('posts').style.display = 'block';
+					document.getElementById('facebookButton').style.display = 'none';
+					document.getElementById('heading').style.display = 'none';
+					
+				} else {					
+					document.getElementById('logout').style.display = 'none';
+					document.getElementById('profiledetails').style.display = 'none';
+					document.getElementById('posts').style.display = 'none';
+					document.getElementById('facebookButton').style.display = 'block';
+					document.getElementById('heading').style.display = 'block';
+					
+				}
+			}
+
+			function logout(){
+				FB.logout(function(response){
+					viewElements(false);
+				});
+			}
+		   
+		</script>
+
+		
+		<nav class="navbar navbar-default">
+			<div class="container">
+			  <div class="navbar-header">
+				<a class="navbar-brand" href="#">Assignment2</a>
+			  </div>
+			  <div id="navbar" class="collapse navbar-collapse">
+				<ul class="nav navbar-nav navbar-right">
+				 <li><a id="logout" href="#" onclick="logout()">Logout</a></li>
+				  <fb:login-button
+					id="facebookButton"
+					scope="public_profile,email,user_birthday,user_location,user_posts"
+					onlogin="checkLoginStatus();">
+				  </fb:login-button>
+				</ul>
+			  </div>
+			</div>
+		</nav>
+
+		<div class="container">
+			<h3 id="heading">View Latest Posts</h3>
+			<div id="profiledetails"></div>
+			<div id="posts"></div>
+		</div>
+
+			  
+	</body>
+</html>
