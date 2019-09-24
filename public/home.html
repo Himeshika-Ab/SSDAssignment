@@ -40,8 +40,8 @@
 </body>
 <script>
 
-	const query = window.location.search.substring(1)
-	const token = query.split('access_token=')[1]
+	const request = window.location.search.substring(1)
+	const token = request.split('access_token=')[1]
     welcome = document.getElementById("welcome")
     repositoriesCount = document.getElementById("repositoriesCount")
 
